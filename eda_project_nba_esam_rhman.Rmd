@@ -24,7 +24,7 @@ library(GGally)
 nba <- read.csv('nba_2014_2017.csv')
 ```
 
->This analysis will explore NBA players season standard (per 36 minutes) and advanced stats for the 2014-2017 NBA seasons
+This analysis will explore NBA players season standard (per 36 minutes) and advanced stats for the 2014-2017 NBA seasons
 
 # Univariate Plots Section
 
@@ -35,7 +35,7 @@ str(nba)
 summary (nba)
 ```
 
->The dataset contains 48 variables and 2469 observations, of the 48 variables 4 are categorical.
+The dataset contains 48 variables and 2469 observations, of the 48 variables 4 are categorical.
 A few things that jumps out. First of all it would make sense to convert the discrete Season and Pos variables into Factors. Also there seems to be at least 1 entry of 0 MP (minutes played), which clearly isn't enough volume to produce meaningful NBA stats. Investigating further:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -43,7 +43,7 @@ ggplot(data = nba, aes(x= MP)) +
   geom_histogram(binwidth = 50)
 ```
 
->We can see there are quite a few low MP entries. In order to only include season stats based on meaningful MPs, I will subset the dataset for only entries with at least 250 minutes played.
+We can see there are quite a few low MP entries. In order to only include season stats based on meaningful MPs, I will subset the dataset for only entries with at least 250 minutes played.
 I'll also perform the Factor conversion mentioned earlier.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -55,7 +55,7 @@ ggplot(data = nba, aes(x= MP)) +
 summary(nba$MP)
 ```
 
->Much better. 
+Much better. 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -63,7 +63,7 @@ ggplot(data = nba, aes(x = Age)) +
   geom_histogram(binwidth = 1)
 ```
 
->Looks like we have a roughly normal distribution for Age with a slight positive skew. The median looks to be roughly around 25 years old. We also have a few players with seasons played as 40+ year olds.
+Looks like we have a roughly normal distribution for Age with a slight positive skew. The median looks to be roughly around 25 years old. We also have a few players with seasons played as 40+ year olds.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -71,7 +71,7 @@ ggplot(data = nba, aes(x= Pos)) +
   geom_bar()
 ```
 
->There are a few hybrid positions in our Pos variable. Positions provides an important context when looking at the rest of the stats, to clean it up I will replace the hybrid values with the Pos value to the left of the dash
+There are a few hybrid positions in our Pos variable. Positions provides an important context when looking at the rest of the stats, to clean it up I will replace the hybrid values with the Pos value to the left of the dash
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -80,7 +80,7 @@ ggplot(data = nba, aes(x= Pos)) +
   geom_bar()
 ```
 
->Much cleaner. It looks like the league had generally more guards than forwards the past 4 seasons, the largest number of players being SGs while Cs being the most scarce. It should be noted this is only based on players playing more at least 250 mins. Lets see if this trend has been the same across all 4 seasons:
+Much cleaner. It looks like the league had generally more guards than forwards the past 4 seasons, the largest number of players being SGs while Cs being the most scarce. It should be noted this is only based on players playing more at least 250 mins. Lets see if this trend has been the same across all 4 seasons:
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -89,14 +89,14 @@ ggplot(data = nba, aes(x= Pos)) +
   facet_wrap(~Season)
 ```
 
->Interesting observations emerge when looking at the positions by season. The number of guards relative to the other positions seems to have been decreasing over the last 4 seasons, with SGs making a bit of rebound in 2017. The number of Centers relative to the other positions also seem to have been steadily increasing over the 4 seasons, surpassing PFs and SFs in 2017 and approaching PG totals. The distribtion of positions has certainly not been static over the last 4 seasons
+Interesting observations emerge when looking at the positions by season. The number of guards relative to the other positions seems to have been decreasing over the last 4 seasons, with SGs making a bit of rebound in 2017. The number of Centers relative to the other positions also seem to have been steadily increasing over the 4 seasons, surpassing PFs and SFs in 2017 and approaching PG totals. The distribtion of positions has certainly not been static over the last 4 seasons
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x= TRB)) +
   geom_histogram(binwidth = 0.5)
 ```
 
->The distribution of TRB (Total Rebounds per 36 mins) seems to be positively skewed, it would be interesting to see this in context of the different positions.
+The distribution of TRB (Total Rebounds per 36 mins) seems to be positively skewed, it would be interesting to see this in context of the different positions.
 
 
 
@@ -106,7 +106,7 @@ ggplot(data = nba, aes(x= TRB)) +
   facet_wrap(~Pos)
 ```
 
->There is a clear variance in the distribution across the different positions, Centers (C) and Power Forwards (PF) produce a more normal distribution than the other positions
+There is a clear variance in the distribution across the different positions, Centers (C) and Power Forwards (PF) produce a more normal distribution than the other positions
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -115,7 +115,7 @@ ggplot(data = nba, aes(x= PTS)) +
   facet_wrap(~Pos)
 ```
 
->The distribution of (Points per 36 minutes) is mostly normal for all positions except SF, in which its positively skewed.
+The distribution of (Points per 36 minutes) is mostly normal for all positions except SF, in which its positively skewed.
 
 
 
@@ -131,7 +131,7 @@ ggplot(data = nba, aes(x= TS.)) +
   facet_wrap(~Pos)
 ```
 
->Comparing the standard Shooting % stats (X2P_PERC/X3P_PERC) vs the advanced True Shooting % metric(TS.), which takes into account that 3 pointers are worth more than 2 pointers, produces interesting results. Centers and PFs have a higher median than other positions when just looking at 2 pointer shooting %, however based on the X3P_PERC distribution Centers struggle when it comes to 3 point shooting %. However with the True Shooting % (TS.), the distributions become very similiar across the different positinos, taking a normal distribution shape. Another observation is the huge spike in 0% X3P_PERC for centers, I suspect this is due to an extremely low number of attempts. I'll subset the data set for that plot to include at least 0.5 X3PA (3 point attempt per 36 mins)
+Comparing the standard Shooting % stats (X2P_PERC/X3P_PERC) vs the advanced True Shooting % metric(TS.), which takes into account that 3 pointers are worth more than 2 pointers, produces interesting results. Centers and PFs have a higher median than other positions when just looking at 2 pointer shooting %, however based on the X3P_PERC distribution Centers struggle when it comes to 3 point shooting %. However with the True Shooting % (TS.), the distributions become very similiar across the different positinos, taking a normal distribution shape. Another observation is the huge spike in 0% X3P_PERC for centers, I suspect this is due to an extremely low number of attempts. I'll subset the data set for that plot to include at least 0.5 X3PA (3 point attempt per 36 mins)
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -139,7 +139,8 @@ ggplot(data = subset(nba, X3PA >= 0.5), aes(x= X3P_PERC)) +
   geom_histogram(binwidth = 0.02) +
   facet_wrap(~Pos)
 ``` 
->That confirms it
+
+That confirms it
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -148,7 +149,7 @@ ggplot(data = nba, aes(x= TS.)) +
   facet_wrap(~Season)
 ``` 
 
->Observing True Shooting % by season yeilds more interesting results. It seems that this metric has been steadily improving over the last 4 seasons. This could have something to do with teams beginning to increasingly incorporate analytics into the game. One indication of this could be the trend of 3 point attempts (X3PA), lets look in to that. 
+Observing True Shooting % by season yeilds more interesting results. It seems that this metric has been steadily improving over the last 4 seasons. This could have something to do with teams beginning to increasingly incorporate analytics into the game. One indication of this could be the trend of 3 point attempts (X3PA), lets look in to that. 
   
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = subset(nba, X3PA != 0), aes(x= X3PA)) +
@@ -163,7 +164,7 @@ ggplot(data = nba, aes(x= USG_PERC)) +
   facet_wrap(~Pos)
 ```
 
->Another interesting advanced metric is Usage % (USG_PERC), however nothing particularly stands out when looking at the distribution. SF do seem to have a slightly more postively skewed distribution than the other positions but not by much.
+Another interesting advanced metric is Usage % (USG_PERC), however nothing particularly stands out when looking at the distribution. SF do seem to have a slightly more postively skewed distribution than the other positions but not by much.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x= PER)) +
@@ -173,7 +174,7 @@ ggplot(data = nba, aes(x= PER)) +
   facet_wrap(~Pos)
 ```
 
->One of the most commonly used advanced metrics is PER (Player Efficiency Rating). While the distribution seem normal for all positions, Cs and PFs seem to have a slightly higher median PER than the other 3 positions. 
+One of the most commonly used advanced metrics is PER (Player Efficiency Rating). While the distribution seem normal for all positions, Cs and PFs seem to have a slightly higher median PER than the other 3 positions. 
 
 ```{r echo=FALSE}
 ggplot(data = nba, aes(x= WS.48)) +
@@ -183,7 +184,7 @@ ggplot(data = nba, aes(x= WS.48)) +
   facet_wrap(~Pos)
 ```
 
->Win Share per 48 minutes(WS.48) is arguably one of the most effective metrics of measuring players performance in terms of actual wins for their respective teams. The distribution looks similar across the SG, PF, and SF positions, its mostly a normal distribution. That said the C position has a higher median than the aforementioned 3 positions while PGs seems to have a lower median. This indicates centers generally contribute more to their team wins than other positions, an interesting observation that warrants a deeper dive. 
+Win Share per 48 minutes(WS.48) is arguably one of the most effective metrics of measuring players performance in terms of actual wins for their respective teams. The distribution looks similar across the SG, PF, and SF positions, its mostly a normal distribution. That said the C position has a higher median than the aforementioned 3 positions while PGs seems to have a lower median. This indicates centers generally contribute more to their team wins than other positions, an interesting observation that warrants a deeper dive. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x= VORP)) +
@@ -193,7 +194,7 @@ ggplot(data = nba, aes(x= VORP)) +
   facet_wrap(~Pos)
 ```
 
->Finally we look at VORP, another key advanced metric that measures value of a player relative to a replacement level player. The distribution of this metric produces a long tailed plot. While the distribution looks similar across the different positions, PGs seem to have the most values in the tail of the plot with quite a few players with a VORP over 4.
+Finally we look at VORP, another key advanced metric that measures value of a player relative to a replacement level player. The distribution of this metric produces a long tailed plot. While the distribution looks similar across the different positions, PGs seem to have the most values in the tail of the plot with quite a few players with a VORP over 4.
 
 
 # Univariate Analysis
@@ -218,15 +219,15 @@ I've also noticed a few hybrid position with a very small number of entries. The
 # Bivariate Plots Section
 
 ```{r echo=FALSE, Bivariate_Plots, message=FALSE, warning=FALSE}
-ggpairs(nba[,c('Season','Pos','Age','X3P_PERC','X2P_PERC','FT_PERC','TS.','USG_PERC'
+ggcorr(nba[,c('Season','Pos','Age','X3P_PERC','X2P_PERC','FT_PERC','TS.','USG_PERC'
                ,'PER','WS.48')])
-ggpairs(nba[,c('Season','Pos','Age','TRB','AST', 'TOV','PTS','PF'
+ggcorr(nba[,c('Season','Pos','Age','TRB','AST', 'TOV','PTS','PF'
                ,'PER','WS.48')])
-ggpairs(nba[,c('Season','Pos','Age','TRB_PERC','AST_PERC', 'FTr','X3PAr','BLK_PERC','VORP'
+ggcorr(nba[,c('Season','Pos','Age','TRB_PERC','AST_PERC', 'FTr','X3PAr','BLK_PERC','VORP'
                ,'PER','WS.48')])  
 ```
 
->Quite a few observations here, in terms of the target variables (PER & WS.48), here are the variables that seem to have the highest correlation:
+Quite a few observations here, in terms of the target variables (PER & WS.48), here are the variables that seem to have the highest correlation:
 X2P_PERC: Not completely unepxected but was surprised the 2 point shooting % had a higher correlation to WS.48 than 3 point shooting %, more on that in the following note
 X3P_PERC: As mentioned above, I expected this to have a higher correlation to WS.48, that said as you might recall we have a high number of 0 values for this based on a very low number of attempts. I will re-assess this in the next section
 TS.: Strong correlation (over 0.7), not completely surprising though worth noting the higher correlation compared to X2P_PERC. Curious to see how this correlation compares to the X3P_PERC correlation once I address the aforementioned issue
@@ -236,69 +237,69 @@ TRB: Out of all the standard NBA stats, rebounds seem to have the highest correl
 FTr: Moderate but interesting correlation to both PER and WS.48. This indicated a player's tendency to get to the free throw line could have an impact on their team wins and their individual efficiency.
 VORP: Strong correlation to both PER and WS.48. This can be considered the most advanced measure of point scoring, and based on this correlation its very important to both player efficiency and contribution to team wins. This doesn't come as a huge surprise
 
->Another interesting observation was the lack of correlation the negative stats such as PF and TOV had on WS.48 and PER.
+Another interesting observation was the lack of correlation the negative stats such as PF and TOV had on WS.48 and PER.
 As far as correlation between supporting variables nothing really stood out, mostly correlation between variables who are used to calculate another, eg X2P_PERC and TS.
 
->I also would like to further investigate time series trends for some of the variables identified above.
+I also would like to further investigate time series trends for some of the variables identified above.
 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = subset(nba, X3PA > 0.286), aes(x = X3P_PERC, y = WS.48)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 summary(nba$X3P_PERC)
 cor.test(subset(nba, X3PA > 0.286)$X3P_PERC,subset(nba, X3PA > 0.286)$WS.48)
 ```
 
->Following up on the point on correlation of X3P_PERC to WS.48, it seems that even removing the 1st quartile of X3PA (low number of attempts per 36 min) still results in little correlation.  
+Following up on the point on correlation of X3P_PERC to WS.48, it seems that even removing the 1st quartile of X3PA (low number of attempts per 36 min) still results in little correlation.  
 Now moving on to the X2P_PERC and TS
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = X2P_PERC, y = WS.48)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 ggplot(data = nba, aes(x = TS., y = WS.48)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 cor.test(nba$X2P_PERC, nba$WS.48)
 cor.test(nba$TS., nba$WS.48)
 ```
->As observed earlier this scatterplot shows the almost linear relationship and strong correlation between TS and WS.48. We should be able to draw a straight line fit through the plot:
+As observed earlier this scatterplot shows the almost linear relationship and strong correlation between TS and WS.48. We should be able to draw a straight line fit through the plot:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = TS., y = WS.48)) +
-  geom_point() +
+  geom_point(alpha = 1/5) +
   geom_smooth(method = 'lm') +
   xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99)))
 ```
 
->The relationship is indeed linear between the 2 variables, I'm curious to see if teams have been working on constructing rosters with the mindset of increasing TS., next I'll plot a time series of the median TS. over the last 4 seasons. 
+The relationship is indeed linear between the 2 variables, I'm curious to see if teams have been working on constructing rosters with the mindset of increasing TS., next I'll plot a time series of the median TS. over the last 4 seasons. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = Season, y = TS., group = 1)) +
   geom_line(stat = 'summary', fun.y = median)
 ```
 
->Interesting, there has been a consistent steady improvement of the league TS. over the past 4 seasons, indicating an increasing emphasis on building rosters with a focus on TS.
+Interesting, there has been a consistent steady improvement of the league TS. over the past 4 seasons, indicating an increasing emphasis on building rosters with a focus on TS.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = X2P_PERC, y = TS.)) +
-  geom_point() +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$X2P_PERC,0.01),quantile(nba$X2P_PERC,0.99)))
 ggplot(data = subset(nba, X3PA > 0.286), aes(x = X3P_PERC, y = TS.)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 ```
 
->Finally I also wanted to examine the relationship between the 3 supporting variables, it seems there's a stronger correlation between 2 pointer shooting % and True shooting % compared to 3 pointer shooting %
+Finally I also wanted to examine the relationship between the 3 supporting variables, it seems there's a stronger correlation between 2 pointer shooting % and True shooting % compared to 3 pointer shooting %
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = USG_PERC, y = PER)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 ggplot(data = nba, aes(x = USG_PERC, y = WS.48)) +
-  geom_point()
+  geom_point(alpha = 1/5)
 ```
 
->As we observed with the correlation cofficient earlier, the scatter plot shows that there is roughly linear relationship between USG_PERC and PER, however this doesn't translate over to WS.48. This is an interesting observation, this indicates just because a player is the focal point of the team doesn't necessarily translate to team win contribution.  
+As we observed with the correlation cofficient earlier, the scatter plot shows that there is roughly linear relationship between USG_PERC and PER, however this doesn't translate over to WS.48. This is an interesting observation, this indicates just because a player is the focal point of the team doesn't necessarily translate to team win contribution.  
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -307,15 +308,15 @@ ggplot(data = nba, aes(x = TRB, y = WS.48)) +
   xlim(c(quantile(nba$TRB,0.01),quantile(nba$TRB,0.99)))
 ```
 
->The correlation here is clearly not as strong as some of the other variables we observed, rebounding doesn't seem to have as strong of an impact on the win contribution as shooting percentage. Taking this one step further, lets check how the relationship looks like between WS.48 and TRB_PERC, which measures how well players rebound based on the available rebounding opportunities.
+The correlation here is clearly not as strong as some of the other variables we observed, rebounding doesn't seem to have as strong of an impact on the win contribution as shooting percentage. Taking this one step further, lets check how the relationship looks like between WS.48 and TRB_PERC, which measures how well players rebound based on the available rebounding opportunities.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = TRB_PERC, y = WS.48)) +
-  geom_point() +
+  geom_point(alpha = 1/3) +
   xlim(c(quantile(nba$TRB_PERC,0.01),quantile(nba$TRB_PERC,0.99)))
 ```
 
->Once again nothing conclusive, lets move on.
+Once again nothing conclusive, lets move on.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -324,24 +325,24 @@ ggplot(data = nba, aes(x = FTr, y = WS.48)) +
   xlim(c(quantile(nba$FTr,0.01),quantile(nba$FTr,0.99)))
 ```
 
->Similar to rebounding, FTr seem to have some correlation to win contribution but again not as strong as some of the other variables. Most of the population seem to be condensed under 0.3 FTr where the correlation WS.48 seems all over the place.
+Similar to rebounding, FTr seem to have some correlation to win contribution but again not as strong as some of the other variables. Most of the population seem to be condensed under 0.3 FTr where the correlation WS.48 seems all over the place.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = VORP, y = WS.48)) +
-  geom_point() +
+  geom_jitter(alpha = 1/5) +
   xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98)))
 ```
 
->Interesting relationship here, there seems to be a strong correlation between VORP but its not a simple linear relationship. There also seems to be a discrete natrue to VORP. Lets try changing the VORP scale.
+Interesting relationship here, there seems to be a strong correlation between VORP but its not a simple linear relationship. There also seems to be a discrete natrue to VORP. Lets try changing the VORP scale.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = VORP, y = WS.48)) +
-  geom_point(alpha = 1/3) +
+  geom_jitter(alpha = 1/5) +
   xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
   scale_x_continuous(trans = 'sqrt')
 ```
 
->By applying a 'sqrt' tranform to the x-axis the relationship seems to be more linear now, we can also clearly see the discrete nature of VORP for lower values.
+By applying a 'sqrt' tranform to the x-axis the relationship seems to be more linear now, we can also clearly see the discrete nature of VORP for lower values.
 There are still quite a few extensions of these plots I'd like to explore to get the full picture, particularly adding a 3rd categorical variables such as Pos.
 
 
@@ -363,15 +364,11 @@ The 2 variables that exhibited a strong correlation to WS.48 and PER were TS. an
 
 
 ```{r echo=FALSE, Multivariate_Plots, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = TS., y = WS.48)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = TS., y = WS.48, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = TS., y = WS.48)) +
-  geom_point() +
-  xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -380,21 +377,16 @@ return(data.frame(COR = cor(nba$TS., nba$WS.48)))
 ddply(nba, .(Pos), func)
 ```
 
->Further investigating the relationship between TS. and WS.48 by Pos reveals additional insight. 
-When adding Pos as color to make the previous plot a multivariate plot, there doesn't seem to be a very clear distinction across the positons. That said there does seem to be a bit of tendency for Centers and PFs to be on the higher side of the WS.48 given a constant TS. where Shooting Guards tend to be on the lower end. This suggests if Cs/PFs can achieve the same shooting efficiency as a SG they'd be a more valuable player overall.
-The other 2 plots attempt to investigate if there is distinction in strength or nature of the correlation between TS. and WS.48 across different positions. Indeed it seems that for PGs TS. has a greater impact on their WS.48 than the other positions, with Cs having the lowest correlation. A hypothesis could be that Centers rely slighly more on attributes other than shooting/scoring to contribute to their overall win contribution. Now lets look at a similar analysis but using PER as the target variable.
+Further investigating the relationship between TS. and WS.48 by Pos reveals additional insight. 
+The plots attempt to investigate if there is distinction in strength or nature of the correlation between TS. and WS.48 across different positions. Indeed it seems that for PGs TS. has a greater impact on their WS.48 than the other positions, with Cs having the lowest correlation. A hypothesis could be that Centers rely slighly more on attributes other than shooting/scoring to contribute to their overall win contribution. Now lets look at a similar analysis but using PER as the target variable.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = TS., y = PER)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = TS., y = PER, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = TS., y = PER)) +
-  geom_point() +
-  xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -403,7 +395,7 @@ return(data.frame(COR = cor(nba$TS., nba$PER)))
 ddply(nba, .(Pos), func)
 ```
 
->The relationship observed in the scatterplot does not reveal anything when colored by position. However when looking at the correlation strength by position there were some drastic variances. As observed in the previous analysis, PGs have a much higher correlation between TS. and PER, with Cs almost an entire 0.2 points lower in terms of the correlation coefficient. This further supports the theory that shooting % is a very important part of their game when it comes to overall production and efficiency, they might not have as many other sources of production to make up for a bad shooting % as Cs (rebounding/defense?) or other positions.
+When looking at the correlation strength by position there were some drastic variances. As observed in the previous analysis, PGs have a much higher correlation between TS. and PER, with Cs almost an entire 0.2 points lower in terms of the correlation coefficient. This further supports the theory that shooting % is a very important part of their game when it comes to overall production and efficiency, they might not have as many other sources of production to make up for a bad shooting % as Cs (rebounding/defense?) or other positions.
 Finally, I'm interested in observing these relationships colored by Season.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -419,20 +411,16 @@ ggplot(data = nba, aes(x = TS., y = PER)) +
                      guide = guide_legend(title = 'Season', reverse = FALSE))
 ```
 
->Not much to note here, no distinction can be observed across the different Seasons which means the correlations observed previously have been consistent over time.
+Not much to note here, no distinction can be observed across the different Seasons which means the correlations observed previously have been consistent over time.
 Not lets move on to the next supporting variable and dig deeper into the USG_PERC relationships.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = USG_PERC, y = PER)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = USG_PERC, y = PER, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$USG_PERC,0.01),quantile(nba$USG_PERC,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = USG_PERC, y = PER)) +
-  geom_point() +
-  xlim(c(quantile(nba$USG_PERC,0.01),quantile(nba$USG_PERC,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -441,15 +429,15 @@ return(data.frame(COR = cor(nba$USG_PERC, nba$PER)))
 ddply(nba, .(Pos), func)
 ```
 
->Interesting observations here. It seems that Cs and PFs to a lesser degree are on the higher spectrum of PER given a constant Usage Rate compared to the other positons. This indicates Cs and PFs are more valuable when utilized at the same rate as other position, an interesing observation considering Guards usually command more of the ball. 
 When looking at the strength of correlation across the position we see variance once again. This time SGs seem to benefit the most from having a higher USG_PERC, while Cs and PFs are on the opposite side of the specturm. Once again this might indicate that Cs and PFs have other ways to be productive even if not utilized heavily as opposed to SGs. In the Bivariate analysis section we also observed that USG_PERC doesn't correlate as strongly with WS.48 as PER. Lets investigate if this changes when adding Pos to the mix.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = USG_PERC, y = WS.48)) +
-  geom_point() +
+ggplot(data = nba, aes(x = USG_PERC, y = WS.48, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$USG_PERC,0.01),quantile(nba$USG_PERC,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) + 
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -458,20 +446,16 @@ return(data.frame(COR = cor(nba$USG_PERC, nba$WS.48)))
 ddply(nba, .(Pos), func)
 ```
 
->PGs seem to emerge with a moderate correlation but not enough to draw any conclusions, the scatterplots don't seem to reveal much here either.
+PGs seem to emerge with a moderate correlation but not enough to draw any conclusions, the scatterplots don't seem to reveal much here either.
 Now lets look at a couple of the variables which exhibited moderate correlation to WS.48/PER, perhaps there is some hidden insight when analyzed by Pos
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = TRB, y = WS.48)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = TRB, y = WS.48, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$TRB,0.01),quantile(nba$TRB,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = TRB, y = WS.48)) +
-  geom_point() +
-  xlim(c(quantile(nba$TRB,0.01),quantile(nba$TRB,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -480,19 +464,15 @@ return(data.frame(COR = cor(nba$TRB, nba$WS.48)))
 ddply(nba, .(Pos), func)
 ```
 
->By coloring the TRB/WS.48 scatterplot by Pos we see it doesn't tell us much because there is such a big variance of the value of TRB by position. Cs and Forwards clearly and unsurprisngly have more rebounds per 36 mins as compared to guards, but lets see if the correlation to WS.48 varies by position. Indeed looking at both the scatterplots and correlation coefficient by position, there is a huge variance across poitions. Centers seem to benefit the most from solid rebounding, with a correlation coefficient over 0.4, while guards don't really exhibit any meaningful correlation. A hypothesis could be the types of rebounds Centers gather have a bigger impact on games as compared to rebounds made by guards. Lets examine this with PER as the target variable.
+Looking at both the scatterplots and correlation coefficient by position, there is a substantial variance across poitions. Centers seem to benefit the most from solid rebounding, with a correlation coefficient over 0.4, while guards don't really exhibit any meaningful correlation. A hypothesis could be the types of rebounds Centers gather have a bigger impact on games as compared to rebounds made by guards. Lets examine this with PER as the target variable.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = TRB, y = PER)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = TRB, y = PER, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$TRB,0.01),quantile(nba$TRB,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = TRB, y = PER)) +
-  geom_point() +
-  xlim(c(quantile(nba$TRB,0.01),quantile(nba$TRB,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -501,19 +481,15 @@ return(data.frame(COR = cor(nba$TRB, nba$PER)))
 ddply(nba, .(Pos), func)
 ```
 
->Similar variances can be seen here, except the correlation overall is stronger to PER as compared to WS.48. Once again this indicates that rebounding has a much bigger impact on a Center or Power Forward's overall production compared to Guards. Lets take a look at another metric which had moderate correlation to the target variables, FTr.
+Similar variances can be seen here, except the correlation overall is stronger to PER as compared to WS.48. Once again this indicates that rebounding has a much bigger impact on a Center or Power Forward's overall production compared to Guards. Lets take a look at another metric which had moderate correlation to the target variables, FTr.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = FTr, y = WS.48)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = FTr, y = WS.48, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$FTr,0.01),quantile(nba$FTr,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = FTr, y = WS.48)) +
-  geom_point() +
-  xlim(c(quantile(nba$FTr,0.01),quantile(nba$FTr,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -522,19 +498,15 @@ return(data.frame(COR = cor(nba$FTr, nba$WS.48)))
 ddply(nba, .(Pos), func)
 ```
 
->We don't really reveal much when adding position as a 3rd variable here, perhaps the only takeaway is that PGs seem to benefit more from FTr than other positions when it comes to overall win contribution. Lets take one more look with correlation to PER.
+We don't really reveal much when adding position as a 3rd variable here, perhaps the only takeaway is that PGs seem to benefit more from FTr than other positions when it comes to overall win contribution. Lets take one more look with correlation to PER.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = FTr, y = PER)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = FTr, y = PER, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$FTr,0.01),quantile(nba$FTr,0.99))) +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = FTr, y = PER)) +
-  geom_point() +
-  xlim(c(quantile(nba$FTr,0.01),quantile(nba$FTr,0.99))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -543,20 +515,15 @@ return(data.frame(COR = cor(nba$FTr, nba$PER)))
 ddply(nba, .(Pos), func)
 ```
 
->When it comes to PER, there seems to be more noticeable split between PGs, SFs, and SGs, compared to Cs and PFs. The former 3 position have a much higher correlation between their ability to get to the free throw line and their overall production. Its not a strong correlation but nonetheless an interesting observation. Finally we'll dig into the supporting variable which we observed the storngest correlation to WS.48/PER, VORP.
+When it comes to PER, there seems to be more noticeable split between PGs, SFs, and SGs, compared to Cs and PFs. The former 3 position have a much higher correlation between their ability to get to the free throw line and their overall production. Its not a strong correlation but nonetheless an interesting observation. Finally we'll dig into the supporting variable which we observed the storngest correlation to WS.48/PER, VORP.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = VORP, y = WS.48)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = VORP, y = WS.48, color = Pos)) +
+  geom_jitter(alpha = 1/5) +
   xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
-  scale_x_continuous(trans = 'sqrt') +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = VORP, y = WS.48)) +
-  geom_point() +
-  xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -565,21 +532,15 @@ return(data.frame(COR = cor(nba$VORP, nba$WS.48)))
 ddply(nba, .(Pos), func)
 ```
 
->A few observations here.When adding the position variable in the scatterplot, we can observe that for a constant VORP Cs and PFs once again seem to have a higher WS.48. That said this seems to be the pattern for the lower values of VORP, once we get into the higher values that pattern is not as clear. This builds on the theory that due to their ability to contribute in other ways then point-scoring, Cs and PFs tend to have higher impact on overall wins than other positions
-Another observation is looking at the correlation between VORP and WS.48 by Pos. Cs seem to have significantly lower correlation compared to other positions, with PGs standing out with a 0.8 correlation coefficient. This also supports the aforementioned hypothesis. Now we'll look at PER.
+Looking at the correlation between VORP and WS.48 by Pos. Cs seem to have significantly lower correlation compared to other positions, with PGs standing out with a 0.8 correlation coefficient. Now we'll look at PER.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = VORP, y = PER)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = VORP, y = PER, color = Pos)) +
+  geom_point(alpha = 1/5) +
   xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
-  scale_x_continuous(trans = 'sqrt') +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE))
-ggplot(data = nba, aes(x = VORP, y = PER)) +
-  geom_point() +
-  xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
-  facet_wrap(~Pos)
+  facet_wrap(~Pos) +
+  theme_dark()
 require(plyr)
 func <- function(nba)
 {
@@ -588,7 +549,7 @@ return(data.frame(COR = cor(nba$VORP, nba$PER)))
 ddply(nba, .(Pos), func)
 ```
 
->Very similar observations to the WS.48 plots. 
+Very similar observations to the WS.48 plots. 
 
 # Multivariate Analysis
 
@@ -611,7 +572,10 @@ ggplot(data = nba, aes(x = USG_PERC, y = PER)) +
   scale_colour_brewer(type = 'div',
                      guide = guide_legend(title = 'Position', reverse = FALSE)) +
   theme(panel.background = element_rect(fill = 'black')) +
-  ggtitle(label =  'PER against Usage Rate by Position')
+  ggtitle(label =  'PER against Usage Percentage by Position') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab('Usage Percentage (USG_PERC)') +
+  ylab('Player Efficiency Rating (PER)')
 ```
 
 ### Description One
@@ -620,13 +584,18 @@ The correlation between PER and USG_PERC is illustrated by this plot, but more i
 ### Plot Two
 ```{r echo=FALSE, Plot_Two, message=FALSE, warning=FALSE}
 ggplot(data = nba, aes(x = TS., y = WS.48)) +
-  geom_point() +
+  geom_point(alpha = 1/5) +
   geom_smooth(method = 'lm') +
   xlim(c(quantile(nba$TS.,0.01),quantile(nba$TS.,0.99))) +
-  ggtitle(label = 'Win Shares (Per 48 mins) against True Shooting(%)')
+  ggtitle(label = 'Win Shares Per 48 Mins against True Shooting(%)') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab('True Shooting % (TS.)') +
+  ylab('Win Shares Per 48 Mins (WS.48)')
 ggplot(data = nba, aes(x = Season, y = TS., group = 1)) +
   geom_line(stat = 'summary', fun.y = median) +
-  ggtitle(label = 'Median True Shooting(%) by Season')
+  ggtitle(label = 'Median True Shooting(%) by Season') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ylab('True Shooting % (TS.)')
 ```
 
 ### Description Two
@@ -634,18 +603,19 @@ The first plot illustrates the strong linear correlation between True Shooting (
 
 ### Plot Three
 ```{r echo=FALSE, Plot_Three, message=FALSE, warning=FALSE}
-ggplot(data = nba, aes(x = VORP, y = WS.48)) +
-  geom_point(aes(color = nba$Pos)) +
+ggplot(data = nba, aes(x = VORP, y = WS.48, color = Pos)) +
+  geom_jitter(alpha = 1/5) +
   xlim(c(quantile(nba$VORP,0.01),quantile(nba$VORP,0.98))) +
-  scale_x_continuous(trans = 'sqrt') +
-  scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Position', reverse = FALSE)) +
-  theme(panel.background = element_rect(fill = 'black')) +
-  ggtitle(label =  'Win Shares (Per 48 mins) against VORP by Position')
+  facet_wrap(~Pos) +
+  theme_dark() +
+  ggtitle(label =  'Win Shares per 48 Mins against VORP by Position') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ylab('Win Shares Per 48 Mins (WS.48)') +
+  xlab('Value Over Replacement Player (VORP)')
 ```
 
 ### Description Three
-This plot illustrates the strongest correlation we've observed, which is between VORP and WS.48. A 'sqrt' transform was performed on the x-axis which resulted in a more linear representation of the relationship. Coloring the plot by Position brought to light the superiority of the C and PF positions given a constant VORP in terms of Win Shares, however, this superiority loses shape as VORP increases.
+This plot illustrates the strongest correlation we've observed, which is between VORP and WS.48. A 'sqrt' transform was performed on the x-axis which resulted in a more linear representation of the relationship. Coloring the plot by Position brought to light how Centers seem to have significantly lower correlation compared to other positions, with PGs standing out with a 0.8 correlation coefficient. This highlights the theme of the hypothesis that Centers seem to possess other ways than point scoring to contribute to winning.
 
 ------
 
